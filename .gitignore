@@ -1,6 +1,3 @@
-# env config file
-config.ini
-
 # spotify user token
 .cache-*
 
