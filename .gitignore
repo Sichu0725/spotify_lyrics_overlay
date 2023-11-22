@@ -1,0 +1,14 @@
+# env config file
+config.ini
+
+# spotify user token
+.cache-*
+
+#build file
+build/*
+dist/*
+*.spec
+
+
+# vscode setting dir
+.vscode
