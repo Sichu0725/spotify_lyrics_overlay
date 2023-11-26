@@ -92,8 +92,7 @@ class Worker(QThread):
                 lyrics = data['lyrics']['lines']
 
                 song_id = _song_id
-                self.update_signal.emit("")
-                self.update_signal.emit("")
+                self.update_signal.emit("song_change")
               else :
                 break
             else :
@@ -159,11 +158,9 @@ class LyricsOverlay(QMainWindow):
     self.font.setPointSize(15)
     self.lyrics_label1.setFont(self.font)
 
-
     self.layout = QVBoxLayout()
-    self.layout.addWidget(self.lyrics_label1)
     self.layout.addWidget(self.lyrics_label0)
-    self.layout.setSpacing(0)
+    self.layout.addWidget(self.lyrics_label1)
 
     self.widget = QWidget()
     self.widget.setLayout(self.layout)
@@ -171,6 +168,11 @@ class LyricsOverlay(QMainWindow):
     # todo 현재 song id비교해서 같으면 검색안하게
 
   def update_label(self, text):
+    if text == "song_change":
+      self.lyrics_label0.setText(f"<p style='color: white; text-align: center; font-size: 15px;'></p>")
+      self.lyrics_label1.setText(f"<p style='color: white; text-align: center; font-size: 15px;'></p>")
+      self.label_idx = 0
+      pass
     if text == "해당 곡의 가사가 등록되어 있지 않습니다." or text == "Spotify is sleeping" :
       self.lyrics_label0.setText(f"<p style='color: white; text-align: center; font-size: 15px;'>{text}</p>")
       self.lyrics_label1.setText(f"<p style='color: white; text-align: center; font-size: 15px;'></p>")
@@ -237,6 +239,13 @@ if __name__ == "__main__" :
   app = QApplication(sys.argv)
   app.setApplicationDisplayName(app_setting['app_name'])
   app.setWindowIcon(QIcon(app_setting['app_icon']))
+
+  # import numpy as np  
+  # import matplotlib.pyplot as plt
+
+  # track = sp2.current_playback()
+  # features = sp2.audio_features(track['item']['id'])
+  # print(features[0]['loudness'])
 
   overlay = LyricsOverlay()
   overlay.show()
